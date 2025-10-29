@@ -1,0 +1,378 @@
+/* Importação das fontes */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Roboto+Mono:wght@400;700&display=swap');
+
+/* Variáveis de Cores (Paleta Bluebot) */
+:root {
+    --color-primary-blue: #007bff; /* Azul vibrante principal */
+    --color-secondary-blue: #0056b3; /* Azul mais escuro para hover */
+    --color-accent-cyan: #00ffff; /* Ciano/Turquesa para destaque */
+    --color-text-light: #ffffff;
+    --color-text-dark: #333;
+    --color-success: #28a745; /* Verde para acerto */
+    --color-error: #dc3545; /* Vermelho para erro */
+    --color-background-dark: #1e1e3f; /* Fundo escuro techno */
+    --color-ui-border: #4a4a8c; /* Borda UI */
+}
+
+/* Estilos Globais */
+body {
+    font-family: 'Roboto Mono', monospace; /* Fonte tech para texto principal */
+    background-color: var(--color-background-dark);
+    color: var(--color-text-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Para garantir o visual limpo */
+}
+
+h1, h2 {
+    font-family: 'Poppins', sans-serif; /* Fonte forte para títulos */
+    color: var(--color-accent-cyan);
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5); /* Efeito neon leve */
+}
+
+/* Container Principal do Jogo */
+#game-container {
+    background: #2a2a5e; /* Fundo do container */
+    border: 3px solid var(--color-primary-blue);
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0, 123, 255, 0.7);
+    padding: 30px;
+    width: 90%;
+    max-width: 800px;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Telas */
+.game-screen {
+    display: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 20px 0;
+}
+.game-screen.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilo do Mascote Bluebot */
+.bluebot-mascot {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 10px var(--color-accent-cyan));
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+}
+
+/* Animação Flutuante Padrão */
+.quiz-mascot {
+    animation: floating 3s ease-in-out infinite alternate;
+}
+@keyframes floating {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+}
+
+/* Animação de Feedback do Bluebot (Quando acerta/erra) */
+.bluebot-shake {
+    animation: shake 0.4s;
+    filter: drop-shadow(0 0 15px var(--color-error));
+}
+.bluebot-bounce {
+    animation: bounce 0.4s;
+    filter: drop-shadow(0 0 15px var(--color-success));
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    20%, 60% { transform: translateX(-5px) rotate(-3deg); }
+    40%, 80% { transform: translateX(5px) rotate(3deg); }
+}
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+
+/* TELA DE INÍCIO */
+#start-screen h1 { font-size: 2.5em; margin-bottom: 10px; }
+#start-screen h2 { font-size: 1.5em; margin-bottom: 30px; color: var(--color-text-light); }
+.subtitle-text { font-size: 1.1em; margin-bottom: 40px; color: #aaa; }
+
+/* Botões Principais */
+.main-button {
+    background-color: var(--color-primary-blue);
+    color: var(--color-text-light);
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+}
+.main-button:hover {
+    background-color: var(--color-secondary-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.6);
+}
+
+/* Animação Pulse para o botão de Início/Reinício */
+.pulse {
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(0, 123, 255, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+}
+
+/* TELA DO QUIZ - Elementos UI */
+.header-ui {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Alinha o controle de volume verticalmente */
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    padding: 10px;
+    border-bottom: 2px dashed var(--color-ui-border);
+}
+
+/* NOVO: Controle de Volume */
+#volume-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-accent-cyan);
+    font-size: 1.2em;
+}
+#volume-slider {
+    -webkit-appearance: none; /* Remove estilo padrão do Chrome/Safari */
+    appearance: none;
+    width: 100px;
+    height: 6px;
+    background: var(--color-ui-border);
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
+    border-radius: 3px;
+}
+#volume-slider:hover {
+    opacity: 1;
+}
+/* Estilo do 'thumb' (botão) do slider */
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-accent-cyan);
+    cursor: pointer;
+    box-shadow: 0 0 5px var(--color-accent-cyan);
+}
+#volume-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-accent-cyan);
+    cursor: pointer;
+    box-shadow: 0 0 5px var(--color-accent-cyan);
+    border: none;
+}
+
+
+.ui-data {
+    color: var(--color-accent-cyan);
+    font-weight: 700;
+}
+
+/* Interação Bluebot/Pergunta */
+.bluebot-interact {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+.bluebot-speech {
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--color-accent-cyan);
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-style: italic;
+    color: var(--color-accent-cyan);
+    margin-left: 15px;
+    position: relative;
+    flex-grow: 1;
+    font-size: 0.9em;
+}
+/* Balão de fala */
+.bluebot-speech::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 255, 255, 0.1);
+    border-left: 1px solid var(--color-accent-cyan);
+    border-bottom: 1px solid var(--color-accent-cyan);
+    z-index: -1;
+}
+
+/* Card da Pergunta */
+#question-card {
+    background: rgba(40, 40, 80, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--color-ui-border);
+    flex-grow: 1;
+}
+#question-text {
+    font-size: 1.2em;
+    color: var(--color-text-light);
+    margin: 10px 0 0 0;
+    line-height: 1.4;
+}
+
+/* Grid de Respostas */
+.answer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Botões de Resposta */
+.answer-button {
+    background-color: rgba(0, 123, 255, 0.2); /* Azul transparente */
+    color: var(--color-text-light);
+    border: 2px solid var(--color-primary-blue);
+    padding: 15px;
+    font-size: 1em;
+    text-align: left;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Roboto Mono', monospace;
+}
+.answer-button:hover:not([disabled]) {
+    background-color: var(--color-primary-blue);
+    transform: scale(1.02);
+}
+
+/* Estilos de Feedback */
+.correct {
+    background-color: var(--color-success) !important;
+    border-color: var(--color-success) !important;
+    box-shadow: 0 0 15px var(--color-success);
+}
+.wrong {
+    background-color: var(--color-error) !important;
+    border-color: var(--color-error) !important;
+    box-shadow: 0 0 15px var(--color-error);
+    opacity: 0.7;
+}
+
+/* Feedback Box */
+#feedback-message {
+    position: absolute;
+    bottom: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 1.1em;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    z-index: 10;
+}
+.show-feedback {
+    opacity: 1 !important;
+}
+.feedback-success {
+    background-color: var(--color-success);
+    color: var(--color-text-light);
+    box-shadow: 0 0 10px var(--color-success);
+}
+.feedback-error {
+    background-color: var(--color-error);
+    color: var(--color-text-light);
+    box-shadow: 0 0 10px var(--color-error);
+}
+
+/* TELA FINAL */
+.final-screen {
+    justify-content: center !important;
+    align-items: center !important;
+}
+.final-title {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+.final-text {
+    font-size: 1.3em;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+.final-score {
+    font-size: 1.5em;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+#final-score-display {
+    color: var(--color-accent-cyan);
+}
+
+/* Responsividade (Ajuste para telas menores) */
+@media (max-width: 650px) {
+    #game-container {
+        padding: 20px;
+        min-height: 500px;
+    }
+    .answer-grid {
+        grid-template-columns: 1fr; /* 1 coluna em telas pequenas */
+    }
+    .bluebot-interact {
+        flex-direction: column;
+        text-align: center;
+    }
+    .bluebot-mascot {
+        margin-bottom: 10px;
+    }
+    .bluebot-speech {
+        margin-left: 0;
+        margin-top: 15px;
+    }
+    .bluebot-speech::before {
+        left: 50%;
+        top: -10px;
+        transform: translateX(-50%) rotate(45deg);
+        border: none;
+        border-right: 1px solid var(--color-accent-cyan);
+        border-top: 1px solid var(--color-accent-cyan);
+    }
+    /* NOVO: Ajuste do volume em telas menores */
+    #volume-control {
+        position: static; /* Volta a ser estático no header */
+        margin-top: 10px;
+        width: 100%;
+        justify-content: flex-end; /* Alinha à direita, junto ao placar */
+    }
+    .header-ui {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

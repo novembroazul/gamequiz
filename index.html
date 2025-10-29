@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluebot Quiz: Novembro Azul - O Upgrade da Saúde</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <audio id="audio-click" src="audio/click_sound.mp3" preload="auto"></audio>
+    <audio id="audio-correct" src="audio/correct_sound.mp3" preload="auto"></audio>
+    <audio id="audio-wrong" src="audio/wrong_sound.mp3" preload="auto"></audio>
+    <audio id="audio-background" src="audio/start_game_sound.mp3" preload="auto" loop></audio>
+    
+    <div id="game-container">
+        
+        <div id="start-screen" class="game-screen active">
+            <img src="bluebot_assets/bluebot_idle.png" alt="Mascote Bluebot em modo IDLE" class="bluebot-mascot start-mascot" id="start-bluebot">
+            <h1>Bluebot Quiz: Novembro Azul</h1>
+            <h2>Seu Cuidado, Sua Melhor Versão.</h2>
+            <p class="subtitle-text">Teste seu conhecimento e garanta o Upgrade da sua saúde! Não há Check-up sem preparo.</p>
+            <button id="start-game-btn" class="main-button pulse">INICIAR DIAGNÓSTICO (START GAME)</button>
+        </div>
+
+        <div id="quiz-screen" class="game-screen">
+            <div class="header-ui">
+                <span id="question-counter" class="ui-data">QUESTÃO 1/6</span>
+                <span id="score-display" class="ui-data">SCORE: 0</span>
+
+                <div id="volume-control">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+                </div>
+            </div>
+            
+            <div class="bluebot-interact">
+                <img src="bluebot_assets/bluebot_idle.png" alt="Bluebot fazendo a pergunta" class="bluebot-mascot quiz-mascot" id="quiz-bluebot-img">
+                <div id="question-card" class="card">
+                    <p id="bluebot-phrase" class="bluebot-speech">"Pronto para o Check-up? Otimize seu conhecimento!"</p>
+                    <h2 id="question-text">O câncer de próstata é o mais comum entre os homens, atrás apenas do câncer de pele não melanoma. Qual a importância do diagnóstico precoce?</h2>
+                </div>
+            </div>
+
+            <div id="answer-buttons" class="answer-grid">
+                </div>
+            
+            <div id="feedback-message" class="feedback-box"></div>
+        </div>
+
+        <div id="final-screen" class="game-screen final-screen">
+            <img id="final-bluebot" src="bluebot_assets/bluebot_idle.png" alt="Bluebot no final" class="bluebot-mascot final-mascot">
+            <h1 id="final-title" class="final-title"></h1>
+            <p id="final-message" class="final-text"></p>
+            <p class="final-score">Seu Score Final: <span id="final-score-display">0</span>/6</p>
+            <button id="restart-game-btn" class="main-button pulse">TENTAR NOVO DIAGNÓSTICO</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
